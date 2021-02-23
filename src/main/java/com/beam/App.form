@@ -3,7 +3,7 @@
   <grid id="27dc6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="738" height="667"/>
+      <xy x="20" y="20" width="738" height="673"/>
     </constraints>
     <properties/>
     <border type="none" title="BEAM Search Engine"/>
@@ -19,115 +19,165 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="e14ef" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="e14ef" layout-manager="GridLayoutManager" row-count="5" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Main"/>
+              <tabbedpane title="Search"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
               <component id="5086b" class="javax.swing.JTextField" binding="textField1" default-binding="true">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
+                  <grid row="1" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="500" height="30"/>
+                    <preferred-size width="500" height="30"/>
+                    <maximum-size width="500" height="30"/>
                   </grid>
                 </constraints>
                 <properties/>
               </component>
-              <component id="547af" class="javax.swing.JButton" binding="searchButton" default-binding="true">
+              <component id="c16ef" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="6" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Search"/>
+                  <font name="Arial Black" size="36" style="1"/>
+                  <text value="BEAM Search Engine"/>
+                </properties>
+              </component>
+              <component id="3ce25" class="javax.swing.JTextArea" binding="enterASearchTermTextArea" default-binding="true">
+                <constraints>
+                  <grid row="3" column="0" row-span="2" col-span="7" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="Enter a search term"/>
                 </properties>
               </component>
               <component id="92368" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Enter Search Terms"/>
                 </properties>
               </component>
-              <component id="12a2f" class="javax.swing.JButton" binding="exitButton" default-binding="true">
+              <component id="44cf1" class="javax.swing.JRadioButton" binding="allTermsRadioButton" default-binding="true">
                 <constraints>
-                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Exit"/>
+                  <text value="All Terms"/>
                 </properties>
               </component>
-              <component id="d9307" class="javax.swing.JList" binding="list1" default-binding="true">
+              <component id="c06f3" class="javax.swing.JRadioButton" binding="anyTermsRadioButton" default-binding="true">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <model>
-                    <item value="Item A"/>
-                    <item value="Item B"/>
-                    <item value="Item C"/>
-                  </model>
+                  <text value="Any Terms"/>
                 </properties>
               </component>
+              <component id="f1cd5" class="javax.swing.JRadioButton" binding="exactPhraseRadioButton" default-binding="true">
+                <constraints>
+                  <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Exact Phrase"/>
+                </properties>
+              </component>
+              <hspacer id="a3af7">
+                <constraints>
+                  <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
             </children>
           </grid>
-          <grid id="de5a7" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="de5a7" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Settings"/>
+              <tabbedpane title="Maintenance"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
-              <component id="965c8" class="javax.swing.JLabel">
+              <component id="45556" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Change Settings Here"/>
+                  <font name="Arial Black" size="36" style="1"/>
+                  <text value="BEAM Search Engine"/>
                 </properties>
               </component>
-              <vspacer id="fbc1b">
+              <scrollpane id="f7740">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="5ebab" class="javax.swing.JTable" binding="table1" default-binding="true">
+                    <constraints/>
+                    <properties>
+                      <autoCreateRowSorter value="false"/>
+                      <fillsViewportHeight value="true"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+          <grid id="f2e48" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="About"/>
+            </constraints>
+            <properties>
+              <background color="-1314049"/>
+              <foreground color="-16777216"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="23c0e" class="javax.swing.JTextArea" binding="searchEngine10TextArea" default-binding="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="4" hsize-policy="4" anchor="1" fill="1" indent="2" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-1379585"/>
+                  <foreground color="-16777216"/>
+                  <lineWrap value="false"/>
+                  <text value="Search Engine 1.0&#10;Project 3&#10;Advanced Java Programming&#10;Created by:&#10;Jesse Aitken&#10;Amanda&#10;Barfology&#10;Miles"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="46310" binding="exit1" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Exit"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="fa76" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Arial Black" size="48"/>
+                  <text value="Click here to exit!"/>
+                </properties>
+              </component>
+              <vspacer id="5c274">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
               </vspacer>
-              <component id="7dda" class="javax.swing.JList" binding="StagingArea">
-                <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <model>
-                    <item value="Staging Area for new files"/>
-                  </model>
-                </properties>
-              </component>
-              <component id="688ff" class="javax.swing.JButton" binding="addNewFileButton" default-binding="true">
-                <constraints>
-                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Add new file"/>
-                </properties>
-              </component>
-              <component id="3d66c" class="javax.swing.JList" binding="ActiveFiles">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <model>
-                    <item value="Active Files"/>
-                  </model>
-                </properties>
-              </component>
             </children>
           </grid>
         </children>

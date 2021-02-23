@@ -1,7 +1,9 @@
 package com.beam;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Hello world!
@@ -11,18 +13,25 @@ public class App
 {
     private JTabbedPane tabbedPane1;
     private JTextField textField1;
-    private JButton searchButton;
-    private JList list1;
-    private JButton exitButton;
-    private javax.swing.JList StagingArea;
-    private JButton addNewFileButton;
-    private javax.swing.JList ActiveFiles;
+
+    private JTextArea enterASearchTermTextArea;
+    private JPanel exit1;
+    private JTextArea searchEngine10TextArea;
+    private JRadioButton allTermsRadioButton;
+    private JRadioButton anyTermsRadioButton;
+    private JRadioButton exactPhraseRadioButton;
+    private JTable table1;
+    private TableModel tablemodel;
+
 
 
     public App() {
-        exitButton.addActionListener(new ActionListener() {
+        TableModel tableModel= table1.getModel();
+        JTable jtable = new JTable();
+        exit1.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseClicked(MouseEvent e) {
+
                 System.exit(0);
             }
         });
@@ -40,12 +49,11 @@ public class App
         frame.setLocationRelativeTo ( null );
         frame.setVisible(true);
 
+
     }
 
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
+
 }
 
 
