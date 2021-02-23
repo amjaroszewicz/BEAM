@@ -14,6 +14,10 @@ public class App
     private JButton searchButton;
     private JList list1;
     private JButton exitButton;
+    private javax.swing.JList StagingArea;
+    private JButton addNewFileButton;
+    private javax.swing.JList ActiveFiles;
+
 
     public App() {
         exitButton.addActionListener(new ActionListener() {
