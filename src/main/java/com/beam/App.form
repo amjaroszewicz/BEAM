@@ -50,11 +50,12 @@
                   <component id="5086b" class="javax.swing.JTextField" binding="inputTextbox">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="425" height="-1"/>
+                        <preferred-size width="525" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <text value=""/>
+                      <toolTipText value="Enter search terms here."/>
                     </properties>
                   </component>
                   <component id="547af" class="javax.swing.JButton" binding="searchButton" default-binding="true">
@@ -65,24 +66,11 @@
                       <horizontalAlignment value="0"/>
                       <horizontalTextPosition value="0"/>
                       <text value="&amp;Search"/>
+                      <toolTipText value="Click to begin search."/>
                     </properties>
                   </component>
                 </children>
               </grid>
-              <component id="d9307" class="javax.swing.JList" binding="resultsList">
-                <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <model>
-                    <item value="Item A"/>
-                    <item value="Item B"/>
-                    <item value="Item C"/>
-                  </model>
-                </properties>
-              </component>
               <grid id="e06bb" binding="buttonGroupPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
@@ -161,16 +149,16 @@
                     </constraints>
                     <properties>
                       <text value="&amp;Maintenance..."/>
+                      <toolTipText value="Click to view Maintenace window."/>
                     </properties>
                   </component>
                   <component id="12a2f" class="javax.swing.JButton" binding="exitButton" default-binding="true">
                     <constraints>
-                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="104" height="30"/>
-                      </grid>
+                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <text value="E&amp;xit"/>
+                      <toolTipText value="Click to close window."/>
                     </properties>
                   </component>
                 </children>
@@ -182,6 +170,20 @@
                 <properties>
                   <font size="20" style="1"/>
                   <text value="BEAM Search Engine"/>
+                </properties>
+              </component>
+              <component id="d9307" class="javax.swing.JList" binding="resultsList">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="Item A"/>
+                    <item value="Item B"/>
+                    <item value="Item C"/>
+                  </model>
                 </properties>
               </component>
             </children>
