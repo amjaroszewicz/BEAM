@@ -27,6 +27,12 @@ public class App {
     private JPanel indexPanel;
     private JLabel indexLabel;
     private JLabel indexNumberLabel;
+    private JPanel inputPanel;
+    private JPanel bottomPanel;
+    private JList resultsList;
+    private JLabel aboutLabel;
+    private JLabel about2Label;
+    private JLabel about3Label;
 
 
     public App() {
