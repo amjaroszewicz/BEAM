@@ -108,7 +108,7 @@ public class Maintenance extends JFrame {
 
                         } else {
                             //if openening/selecting file is cancelled
-                            JOptionPane.showMessageDialog(null, "Test");
+                            JOptionPane.showMessageDialog(null, "Add file operation cancelled by user");
                         }
                     }
                 }
@@ -124,6 +124,11 @@ public class Maintenance extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Remove File Functionality
+                //dtm.getDataVector().elementAt(table1.getSelectedRow());
+                int rowSelection;
+                rowSelection = table1.getSelectedRow();
+                dtm.removeRow(rowSelection);
+
             }
         });
 
