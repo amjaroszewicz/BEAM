@@ -13,6 +13,10 @@ import javax.swing.*;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 
 
 public class Maintenance extends JFrame {
@@ -36,7 +40,7 @@ public class Maintenance extends JFrame {
         this.setContentPane(this.panel1);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.pack();
-        this.setSize(600, 401);
+        this.setSize(800, 601);
         this.setLocationRelativeTo(null);
         this.setVisible(false);
         table1.setVisible(true);
@@ -50,6 +54,8 @@ public class Maintenance extends JFrame {
             }
         };
         dtm.addColumn("File Name");
+        dtm.addColumn("Date Modified");
+        dtm.addColumn("Size");
         dtm.addColumn("File Path");
         table1.setModel(dtm);
         final JFileChooser fc = new JFileChooser();
@@ -71,8 +77,16 @@ public class Maintenance extends JFrame {
                         if (returnVal == JFileChooser.APPROVE_OPTION) {
                             File file = fc.getSelectedFile();
                             //This is where a real application would open the file.
-                            //log.append("Opening: " + file.getName() + "." + newline);
-                            dtm.addRow(new Object[] {file.getName(),file.getAbsolutePath()});
+                            // # TO-DO: create loop of indexable words and add to file.
+                            try {
+                                Path file2 = Paths.get(fc.getSelectedFile().getAbsolutePath());
+                                BasicFileAttributes attr =
+                                        Files.readAttributes(file2, BasicFileAttributes.class);
+
+                            dtm.addRow(new Object[] {file.getName(),attr.lastModifiedTime(), attr.size() + " bytes",file.getAbsolutePath()});
+                            } catch (IOException error) {
+                                error.printStackTrace();
+                            }
 
                         } else {
                             //log.append("Open command cancelled by user." + newline);
