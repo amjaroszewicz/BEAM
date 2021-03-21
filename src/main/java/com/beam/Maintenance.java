@@ -34,11 +34,13 @@ public class Maintenance extends JFrame {
 
     //constructor
     public Maintenance(){
-        //final JFrame frame = new JFrame("App");
+        //Check if index file exist, if not , create it and display message
+        //NIlabel = New Index label (Display "New Index was created")
         if(!MaintUtils.checkIndexFile()){
             MaintUtils.createNewIndexFile();
             NIlabel.setVisible(true);
         }
+        //Maintenance JFrame properties
         this.setTitle("Maintenance");
         this.setContentPane(this.panel1);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -46,28 +48,38 @@ public class Maintenance extends JFrame {
         this.setSize(800, 601);
         this.setLocationRelativeTo(null);
         this.setVisible(false);
+        //Maintenance->JTable properties
         table1.setVisible(true);
         table1.setFillsViewportHeight(true);
         table1.setAutoCreateRowSorter(true);
         final DefaultTableModel dtm=new DefaultTableModel() {
+            //make all cells uneditable
             @Override
             public boolean isCellEditable(int row, int column) {
-                //all cells false
+
                 return false;
             }
         };
+        //Maintenance->JTable columns
         dtm.addColumn("File Name");
         dtm.addColumn("Date Modified");
         dtm.addColumn("Size");
         dtm.addColumn("File Path");
+        //set Default Table Model
         table1.setModel(dtm);
-        final JFileChooser fc = new JFileChooser();
+
+        //Main menu button
+        // Action: Set visible false to maintenance window
         mainMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Maintenance.this.setVisible(false);
             }
         });
+
+        final JFileChooser fc = new JFileChooser();
+        //addFileButton action listener
+
         addFileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -76,16 +88,17 @@ public class Maintenance extends JFrame {
                     //Handle open button action.
                     if (e.getSource() == addFileButton) {
                         int returnVal = fc.showOpenDialog(Maintenance.this);
-
+                        //If user picks a file
                         if (returnVal == JFileChooser.APPROVE_OPTION) {
                             File file = fc.getSelectedFile();
-                            //This is where a real application would open the file.
+                            //Add words to index
                             // # TO-DO: create loop of indexable words and add to file.
+                            //Get information to populate JTable - file name, last modified, size, and absolutepath.
                             try {
                                 Path file2 = Paths.get(fc.getSelectedFile().getAbsolutePath());
                                 BasicFileAttributes attr =
                                         Files.readAttributes(file2, BasicFileAttributes.class);
-
+                            //adds row to jtable
                             dtm.addRow(new Object[] {file.getName(),attr.lastModifiedTime(), attr.size() + " bytes",file.getAbsolutePath()});
 
                             } catch (IOException error) {
@@ -94,7 +107,8 @@ public class Maintenance extends JFrame {
 
 
                         } else {
-                            //log.append("Open command cancelled by user." + newline);
+                            //if openening/selecting file is cancelled
+
                         }
                     }
                 }
