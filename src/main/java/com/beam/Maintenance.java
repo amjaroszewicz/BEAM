@@ -1,8 +1,17 @@
 package com.beam;
 
+
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.filechooser.*;
+import java.io.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.SwingUtilities;
+
 
 public class Maintenance extends JFrame {
     public JTable table1;
@@ -11,6 +20,7 @@ public class Maintenance extends JFrame {
     public JButton removeFileButton;
     public JButton refreshFilesButton;
     public JButton mainMenuButton;
+
 
     public static void main(String[] args) {
     }
@@ -25,6 +35,7 @@ public class Maintenance extends JFrame {
         this.setSize(600, 401);
         this.setLocationRelativeTo(null);
         this.setVisible(false);
+        final JFileChooser fc = new JFileChooser();
         mainMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -35,8 +46,22 @@ public class Maintenance extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Add File Functionality
-            }
+
+                    //Handle open button action.
+                    if (e.getSource() == addFileButton) {
+                        int returnVal = fc.showOpenDialog(Maintenance.this);
+
+                        if (returnVal == JFileChooser.APPROVE_OPTION) {
+                            File file = fc.getSelectedFile();
+                            //This is where a real application would open the file.
+                            //log.append("Opening: " + file.getName() + "." + newline);
+                        } else {
+                            //log.append("Open command cancelled by user." + newline);
+                        }
+                    }
+                }
         });
+
         refreshFilesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
