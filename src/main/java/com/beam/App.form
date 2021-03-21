@@ -96,6 +96,7 @@
                     <properties>
                       <horizontalAlignment value="10"/>
                       <horizontalTextPosition value="11"/>
+                      <selected value="true"/>
                       <text value="Any &amp;of the Search Terms"/>
                     </properties>
                   </component>
@@ -108,7 +109,7 @@
                     <properties>
                       <horizontalAlignment value="10"/>
                       <horizontalTextPosition value="11"/>
-                      <selected value="true"/>
+                      <selected value="false"/>
                       <text value="&amp;All of the Search Terms"/>
                     </properties>
                   </component>
