@@ -28,4 +28,21 @@ public class MaintUtils {
              e.printStackTrace();
          }
     }
+    public static int nextAvailableID(){
+         //read from index file and get next available id.
+        int id;
+         return id=0;
+    }
+    public static void incrementNextAvailID(){
+         // Increment next available ID. To be used after a file is added.
+    }
+    public static void addToIndex(){
+        //When file is added to index
+    }
+    public static void removeFromIndex(){
+         //When file is removed from index
+    }
+    public static void checkFiles(){
+         //When refresh button is used, check if files exist and if date modified has changed.
+    }
 }
