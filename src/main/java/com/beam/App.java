@@ -76,6 +76,20 @@ public class App extends JFrame {
                 maint.setVisible(true);
             }
         });
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Add functionality to search button
+                if(inputTextbox.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(tabbedPane1,
+                            "You must enter something to search for.",
+                            "Warning",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    // Add functionality if search result is not blank
+                }
+            }
+        });
 
     }
 

@@ -108,6 +108,7 @@
                     <properties>
                       <horizontalAlignment value="10"/>
                       <horizontalTextPosition value="11"/>
+                      <selected value="true"/>
                       <text value="&amp;All of the Search Terms"/>
                     </properties>
                   </component>
