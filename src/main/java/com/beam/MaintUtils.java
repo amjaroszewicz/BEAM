@@ -8,6 +8,7 @@ public class MaintUtils {
     private static final String FILE_NAME = "BEAMsearch.txt";
 
      public static boolean checkIndexFile(){
+         //example location c:\Users\jaitken\BEAMsearch.txt
          File indexFile = new File(System.getProperty("user.home")+"/" + FILE_NAME);
          exists = indexFile.exists();
 
@@ -15,6 +16,7 @@ public class MaintUtils {
     }
 
     public static void createNewIndexFile() {
+        //example location c:\Users\jaitken\BEAMsearch.txt
          try {
              File indexFile = new File(System.getProperty("user.home") + "/" + FILE_NAME);
              indexFile.createNewFile();
