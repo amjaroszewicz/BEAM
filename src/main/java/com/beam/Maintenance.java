@@ -26,7 +26,7 @@ public class Maintenance extends JFrame {
     public JButton removeFileButton;
     public JButton refreshFilesButton;
     public JButton mainMenuButton;
-
+    private JLabel NIlabel;
 
 
     public static void main(String[] args) {
@@ -35,7 +35,10 @@ public class Maintenance extends JFrame {
     //constructor
     public Maintenance(){
         //final JFrame frame = new JFrame("App");
-
+        if(!MaintUtils.checkIndexFile()){
+            MaintUtils.createNewIndexFile();
+            NIlabel.setVisible(true);
+        }
         this.setTitle("Maintenance");
         this.setContentPane(this.panel1);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -84,9 +87,11 @@ public class Maintenance extends JFrame {
                                         Files.readAttributes(file2, BasicFileAttributes.class);
 
                             dtm.addRow(new Object[] {file.getName(),attr.lastModifiedTime(), attr.size() + " bytes",file.getAbsolutePath()});
+
                             } catch (IOException error) {
                                 error.printStackTrace();
                             }
+
 
                         } else {
                             //log.append("Open command cancelled by user." + newline);
