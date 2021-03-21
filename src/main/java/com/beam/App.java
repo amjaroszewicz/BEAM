@@ -54,7 +54,7 @@ public class App extends JFrame {
     }
     //constructor
     public App(){
-        //final JFrame frame = new JFrame("App");
+        //Set Properties for Main window
         this.setTitle("Main Application");
         this.setContentPane(this.tabbedPane1);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,23 +63,27 @@ public class App extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 
-
+        //Set exit action for exitButton
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
+        //Set action for maintenanceButton
+        //Displays maintenance window
         maintenanceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 maint.setVisible(true);
             }
         });
+        //Set action for "Search" button
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Add functionality to search button
+                //Alerts user if they click search with blank text field
                 if(inputTextbox.getText().isEmpty()){
                     JOptionPane.showMessageDialog(tabbedPane1,
                             "You must enter something to search for.",

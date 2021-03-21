@@ -108,7 +108,7 @@ public class Maintenance extends JFrame {
 
                         } else {
                             //if openening/selecting file is cancelled
-
+                            JOptionPane.showMessageDialog(null, "Test");
                         }
                     }
                 }
