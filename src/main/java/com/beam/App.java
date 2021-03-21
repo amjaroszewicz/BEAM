@@ -62,6 +62,7 @@ public class App extends JFrame {
         this.setSize(800, 601);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        MaintUtils.checkVersion(this);
 
         //Set exit action for exitButton
         exitButton.addActionListener(new ActionListener() {

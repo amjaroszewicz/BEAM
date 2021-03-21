@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 
 
+
 public class Maintenance extends JFrame {
     public JTable table1;
     public JPanel panel1;
@@ -124,11 +125,11 @@ public class Maintenance extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Remove File Functionality
-                //dtm.getDataVector().elementAt(table1.getSelectedRow());
                 int rowSelection;
                 rowSelection = table1.getSelectedRow();
                 dtm.removeRow(rowSelection);
-
+                //Below for debugging only
+                JOptionPane.showMessageDialog(null, "Removed row " + rowSelection);
             }
         });
 
