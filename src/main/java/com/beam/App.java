@@ -48,7 +48,7 @@ public class App extends JFrame {
     public static void main(String[] args) {
         App mainApp = new App();
          maint = new Maintenance();
-        //mainApp.setVisible(true);
+
 
 
     }
