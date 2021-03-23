@@ -1,18 +1,9 @@
 package com.beam;
-
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-
+import org.json.simple.JSONObject;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.util.Locale;
 
 public class App extends JFrame {
     private JTabbedPane tabbedPane1;
@@ -21,7 +12,6 @@ public class App extends JFrame {
     private JList list1;
     private JButton exitButton;
     private JLabel titleLabel;
-    private JPanel aboutPanel;
     private JPanel buttonGroupPanel;
     private JRadioButton exactRadio;
     private JRadioButton anyRadio;
@@ -35,11 +25,9 @@ public class App extends JFrame {
     private JPanel inputPanel;
     private JPanel bottomPanel;
     private JList resultsList;
-    private JLabel aboutLabel;
-    private JLabel about2Label;
-    private JLabel about3Label;
     private JPanel mainPanel;
     public static JFrame maint=null;
+
 
 
 
@@ -92,6 +80,7 @@ public class App extends JFrame {
                             JOptionPane.WARNING_MESSAGE);
                 } else {
                     // Add functionality if search result is not blank
+                    SearchUtils.generateSearch( );
                 }
             }
         });
@@ -105,6 +94,9 @@ public class App extends JFrame {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
+
+   
+
     }
 
 }
