@@ -1,6 +1,4 @@
 package com.beam;
-import org.json.simple.JSONObject;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -95,7 +93,7 @@ public class App extends JFrame {
     private void createUIComponents() {
         // TODO: place custom component creation code here
 
-   
+
 
     }
 

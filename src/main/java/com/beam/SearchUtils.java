@@ -6,10 +6,11 @@ import java.io.IOException;
 
 public class SearchUtils {
 
-    public static void generateSearch(String[] Args) {
+    public static void generateSearch() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("First_Name", "Shikhar");
-        // create incremental loop
+        //
+        //
         MaintUtils.getIndexFilePath();
         try {
             FileWriter file = new FileWriter("E:/output.json");
