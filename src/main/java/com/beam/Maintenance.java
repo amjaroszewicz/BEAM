@@ -42,6 +42,23 @@ public class Maintenance extends JFrame {
             NIlabel.setVisible(true);
         }
         //Maintenance JFrame properties
+
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                table1.setVisible(true);
+                table1.setFillsViewportHeight(true);
+                table1.setAutoCreateRowSorter(true);
+                final DefaultTableModel dtm=new DefaultTableModel() {
+                    //make all cells uneditable
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+            }
+        });
+
+
         this.setTitle("Maintenance");
         this.setContentPane(this.panel1);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -50,31 +67,41 @@ public class Maintenance extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(false);
         //Maintenance->JTable properties
-        table1.setVisible(true);
-        table1.setFillsViewportHeight(true);
-        table1.setAutoCreateRowSorter(true);
-        final DefaultTableModel dtm=new DefaultTableModel() {
-            //make all cells uneditable
-            @Override
-            public boolean isCellEditable(int row, int column) {
-
-                return false;
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                table1.setVisible(true);
+                table1.setFillsViewportHeight(true);
+                table1.setAutoCreateRowSorter(true);
             }
-        };
-        //Maintenance->JTable columns
-        dtm.addColumn("File Name");
-        dtm.addColumn("Date Modified");
-        dtm.addColumn("Size");
-        dtm.addColumn("File Path");
-        //set Default Table Model
-        table1.setModel(dtm);
+        });
+                final DefaultTableModel dtm=new DefaultTableModel() {
+                    //make all cells uneditable
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                //Maintenance->JTable columns
+                dtm.addColumn("File Name");
+                dtm.addColumn("Date Modified");
+                dtm.addColumn("Size");
+                dtm.addColumn("File Path");
+                //set Default Table Model
+                table1.setModel(dtm);
+
+
 
         //Main menu button
         // Action: Set visible false to maintenance window
         mainMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Maintenance.this.setVisible(false);
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        Maintenance.this.setVisible(false);
+                    }
+                });
+
             }
         });
 
@@ -109,9 +136,15 @@ public class Maintenance extends JFrame {
 
                         } else {
                             //if openening/selecting file is cancelled
-                            JOptionPane.showMessageDialog(null, "Add file operation cancelled by user");
+                            SwingUtilities.invokeLater(new Runnable() {
+                                public void run() {
+                                    JOptionPane.showMessageDialog(null, "Add file operation cancelled by user");
+                                }
+                            });
+
                         }
                     }
+                    ////
                 }
         });
 
@@ -125,11 +158,19 @@ public class Maintenance extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Remove File Functionality
-                int rowSelection;
-                rowSelection = table1.getSelectedRow();
-                dtm.removeRow(rowSelection);
+
+
                 //Below for debugging only
-                JOptionPane.showMessageDialog(null, "Removed row " + rowSelection);
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        int rowSelection;
+                        rowSelection = table1.getSelectedRow();
+                        dtm.removeRow(rowSelection);
+                        JOptionPane.showMessageDialog(null, "Removed row " + rowSelection);
+                    }
+                });
+
+
             }
         });
 

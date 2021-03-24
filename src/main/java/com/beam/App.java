@@ -46,8 +46,13 @@ public class App extends JFrame {
 
 
     public static void main(String[] args) {
-        App mainApp = new App();
-         maint = new Maintenance();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                App mainApp = new App();
+                maint = new Maintenance();
+            }
+        });
+
 
 
 
@@ -55,6 +60,7 @@ public class App extends JFrame {
     //constructor
     public App(){
         //Set Properties for Main window
+
         this.setTitle("Main Application");
         this.setContentPane(this.tabbedPane1);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,7 +74,12 @@ public class App extends JFrame {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        System.exit(0);
+                    }
+                });
+
             }
         });
         //Set action for maintenanceButton
@@ -76,7 +87,12 @@ public class App extends JFrame {
         maintenanceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                maint.setVisible(true);
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        maint.setVisible(true);
+                    }
+                });
+
             }
         });
         //Set action for "Search" button
@@ -85,14 +101,22 @@ public class App extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //Add functionality to search button
                 //Alerts user if they click search with blank text field
-                if(inputTextbox.getText().isEmpty()){
-                    JOptionPane.showMessageDialog(tabbedPane1,
-                            "You must enter something to search for.",
-                            "Warning",
-                            JOptionPane.WARNING_MESSAGE);
-                } else {
-                    // Add functionality if search result is not blank
-                }
+
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        if(inputTextbox.getText().isEmpty()){
+                            JOptionPane.showMessageDialog(tabbedPane1,
+                                    "You must enter something to search for.",
+                                    "Warning",
+                                    JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            // Add functionality if search result is not blank
+
+                        }
+                    }
+                });
+
+                ///
             }
         });
 
