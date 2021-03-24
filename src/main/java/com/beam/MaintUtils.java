@@ -1,10 +1,15 @@
 package com.beam;
 
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import javax.swing.*;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -88,11 +93,17 @@ public class MaintUtils {
             String versionVar= scan.nextLine();
             nextAvailID = Integer.parseInt(scan.nextLine()) ;
             //scan.nextLine();
+            JsonFactory factory = new JsonFactory();
+
+            JsonGenerator generator = factory.createGenerator(
+                    new File(System.getProperty("user.home") + "/" + JSONFILE), JsonEncoding.UTF8);
+            generator.useDefaultPrettyPrinter();
 
             while(scan.hasNext()){
                 if(scan.hasNextBoolean()){
                     break;
                 }
+
                     indexFileID = Integer.parseInt(scan.next());
                     indexFileLoc = scan.next();
                     indexFileMD = Long.parseLong(scan.next());
@@ -104,29 +115,20 @@ public class MaintUtils {
                 //"scan" through files that already exist in the index.
                 while(scanIndex.hasNext()) {
                     JSONObject obj = new JSONObject();
-                    String jsonText;
-                    obj.put("wordLocation",String.valueOf(count));
-                    obj.put("word",scanIndex.next());
-                    obj.put("fileID", indexFileID);
-                    StringWriter out = new StringWriter();
-                    JSONValue.writeJSONString(obj, out);
-                    jsonText = out.toString();
-                    try {
-                        File jsonFile = new File(System.getProperty("user.home") + "/" + JSONFILE);
-                        jsonFile.createNewFile();
-                        Writer output;
-                        output = new BufferedWriter(new FileWriter(System.getProperty("user.home") + "/" + JSONFILE, true));
-                        output.append(jsonText);
-                        output.append("\n");
-                        output.close();
 
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    generator.writeStartObject();
+                    String jsonText;
+                    generator.writeStringField("word",scanIndex.next());
+                    generator.writeStringField("wordLocation", String.valueOf(count));
+                    generator.writeStringField( "fileID", String.valueOf(indexFileID));
+                    generator.writeEndObject();
                     count++;
                 }
             }
+            generator.close();
+
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -136,30 +138,28 @@ public class MaintUtils {
         try {
             Scanner scanNewFile = new Scanner(file, "UTF8");
             int count=0;
-            while(scanNewFile.hasNext()) {
-                count++;
-                JSONObject obj2 = new JSONObject();
-                String jsonText2;
-                obj2.put("wordLocation",String.valueOf(count));
-                obj2.put("word",scanNewFile.next());
-                obj2.put("fileID", nextAvailID);
-                StringWriter out1 = new StringWriter();
-                JSONValue.writeJSONString(obj2, out1);
-                jsonText2 = out1.toString();
+            JsonFactory factory = new JsonFactory();
+            OutputStream fos = new FileOutputStream(new File(System.getProperty("user.home") + "/" + JSONFILE), true);
+            JsonGenerator generator = factory.createGenerator(fos, JsonEncoding.UTF8);
+            generator.useDefaultPrettyPrinter();
 
-                    File jsonFile = new File(System.getProperty("user.home") + "/" + JSONFILE);
-                    jsonFile.createNewFile();
-                    Writer output;
-                    output = new BufferedWriter(new FileWriter(System.getProperty("user.home") + "/" + JSONFILE, true));
-                    output.append(jsonText2);
-                    output.append("\n");
-                    output.close();
+            while(scanNewFile.hasNext()) {
+
+
+                generator.writeStartObject();
+                generator.writeStringField("word",scanNewFile.next());
+                generator.writeStringField("wordLocation", String.valueOf(count));
+                generator.writeStringField( "fileID", String.valueOf(nextAvailID));
+                generator.writeEndObject();
+                count++;
 
 
             }
+            generator.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
 
     }
     public static void removeFromIndex(){
