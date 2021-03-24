@@ -4,3 +4,4 @@
 Our group Members: Jesse Aitken , Michael Hauser , Miles Limehouse & Amanda Jaroszewicz
 
 We are connected on Discord for communication purposes. 
+Each team members will work on project through own branch and reviewed code will be added to main branch. 
