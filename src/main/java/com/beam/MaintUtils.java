@@ -4,8 +4,7 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+
 
 import javax.swing.*;
 import java.io.*;
@@ -114,7 +113,7 @@ public class MaintUtils {
                 int count=0;
                 //"scan" through files that already exist in the index.
                 while(scanIndex.hasNext()) {
-                    JSONObject obj = new JSONObject();
+
 
                     generator.writeStartObject();
                     String jsonText;
