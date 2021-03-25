@@ -60,7 +60,8 @@ public class App extends JFrame {
     //constructor
     public App(){
         //Set Properties for Main window
-
+        MaintUtils.deleteIndexFile();
+        MaintUtils.deleteJsonFile();
         this.setTitle("Main Application");
         this.setContentPane(this.tabbedPane1);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

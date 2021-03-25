@@ -37,6 +37,7 @@ public class Maintenance extends JFrame {
     public Maintenance(){
         //Check if index file exist, if not , create it and display message
         //NIlabel = New Index label (Display "New Index was created")
+
         if(!MaintUtils.checkIndexFile()){
             MaintUtils.createNewIndexFile();
             NIlabel.setVisible(true);
@@ -105,7 +106,7 @@ public class Maintenance extends JFrame {
             }
         });
 
-        final JFileChooser fc = new JFileChooser();
+        final JFileChooser fc = new JFileChooser(System.getProperty("user.home") + "/"+"Desktop/Text/");
         //addFileButton action listener
 
         addFileButton.addActionListener(new ActionListener() {
@@ -115,6 +116,7 @@ public class Maintenance extends JFrame {
 
                     //Handle open button action.
                     if (e.getSource() == addFileButton) {
+
                         int returnVal = fc.showOpenDialog(Maintenance.this);
                         //If user picks a file
                         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -129,6 +131,7 @@ public class Maintenance extends JFrame {
                             //adds row to jtable
                             dtm.addRow(new Object[] {file.getName(),attr.lastModifiedTime(), attr.size() + " bytes",file.getAbsolutePath()});
                                 MaintUtils.addToIndex(Maintenance.this, file);
+                                MaintUtils.addFileToIndex(file.getAbsolutePath(),file.lastModified(), Maintenance.this);
                             } catch (IOException error) {
                                 error.printStackTrace();
                             }
