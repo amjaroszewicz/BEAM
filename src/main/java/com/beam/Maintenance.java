@@ -28,6 +28,7 @@ public class Maintenance extends JFrame {
     public JButton refreshFilesButton;
     public JButton mainMenuButton;
     private JLabel NIlabel;
+    private JTabbedPane RemoveFilePanel;
 
 
     public static void main(String[] args) {
@@ -163,10 +164,24 @@ public class Maintenance extends JFrame {
                 //Below for debugging only
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
-                        int rowSelection;
-                        rowSelection = table1.getSelectedRow();
-                        dtm.removeRow(rowSelection);
-                        JOptionPane.showMessageDialog(null, "Removed row " + rowSelection);
+                        try {
+                            int rowSelection;
+                            rowSelection = table1.getSelectedRow();
+                            dtm.removeRow(rowSelection);
+                            JOptionPane.showMessageDialog(RemoveFilePanel,
+                                    "Removed row " + rowSelection,
+                                    "Note",
+                                    JOptionPane.WARNING_MESSAGE);
+
+                        }
+                        catch (ArrayIndexOutOfBoundsException error){
+                            //Exception occurs in terminal but felt it should still be handled.
+                            //Occurs if no index(es) in table.
+                            JOptionPane.showMessageDialog(RemoveFilePanel,
+                                    "Please select a row to remove.",
+                                    "Note",
+                                    JOptionPane.WARNING_MESSAGE);
+                        }
                     }
                 });
 

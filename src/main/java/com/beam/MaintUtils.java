@@ -4,13 +4,14 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+//import org.json.simple.JSONObject;
+//import org.json.simple.JSONValue;
 
 import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class MaintUtils {
@@ -91,7 +92,13 @@ public class MaintUtils {
         try {
             Scanner scan = new Scanner(new File(getIndexFilePath()), "UTF8");
             String versionVar= scan.nextLine();
-            nextAvailID = Integer.parseInt(scan.nextLine()) ;
+            try {
+                nextAvailID = Integer.parseInt(scan.nextLine());
+            }
+            catch(NoSuchElementException error){
+                //Exception occurs in terminal but felt it should still be handled.
+            }
+
             //scan.nextLine();
             JsonFactory factory = new JsonFactory();
 
@@ -114,7 +121,7 @@ public class MaintUtils {
                 int count=0;
                 //"scan" through files that already exist in the index.
                 while(scanIndex.hasNext()) {
-                    JSONObject obj = new JSONObject();
+                    //JSONObject obj = new JSONObject();
 
                     generator.writeStartObject();
                     String jsonText;
