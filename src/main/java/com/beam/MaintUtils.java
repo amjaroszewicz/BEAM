@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
+
 import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
@@ -68,6 +69,11 @@ public class MaintUtils {
          return fp;
     }
     //Method creates a new index file in the users home directory
+    public static String getJsonFilePath(){
+        String fp= System.getProperty("user.home") + "/" + JSONFILE;
+
+        return fp;
+    }
 
     public static void createNewIndexFile() {
         //example location c:\Users\jaitken\BEAMsearch.txt
@@ -92,140 +98,90 @@ public class MaintUtils {
     public static void incrementNextAvailID(){
          // Increment next available ID. To be used after a file is added.
     }
-    public static void addFileToIndex(String indexFileLoc, Long indexFileMD,JFrame jframe){
-        String indexFileID2="";
-        String indexFileLoc2="";
-        String indexFileMD2="";
-        int nextAvail2=0;
-         //Use this method to add file to index
-        try {
-            ArrayList<String> addFileArray = new ArrayList<String>();
-            Scanner scan = new Scanner(new File(getIndexFilePath()), "UTF8");
-            String versionVar = scan.nextLine();
-            addFileArray.add(versionVar + "\n");
-            nextAvailID = scan.nextLine();
-            nextAvail2 = Integer.parseInt(nextAvailID) +1;
-            addFileArray.add(String.valueOf(nextAvail2)+ "\n");
-            addFileArray.add(String.valueOf(nextAvailID) + "\t" + indexFileLoc + "\t" + indexFileMD+"\n");
-            while(scan.hasNext()){
-                if(scan.hasNextBoolean()){
-                    addFileArray.add("TRUE");
-                    break;
-                }
-                scan.useDelimiter("\t"+"\n");
-                indexFileID2 = scan.next();
-                addFileArray.add(String.valueOf(indexFileID2+"\t"));
-                scan.useDelimiter("\t");
-                indexFileLoc2 = scan.next();
-                addFileArray.add(indexFileLoc2 + "\t");
-                indexFileMD2 = scan.next();
-                addFileArray.add(String.valueOf(indexFileMD2)+"\t"+"\n");
-
-
-                //JOptionPane.showMessageDialog(jframe, indexFileID2 +"   "+ indexFileLoc2 +"   "+ indexFileMD2);
-            }
-            Writer output;
-            output = new BufferedWriter(new FileWriter(getIndexFilePath()));
-            for (int i = 0; i < addFileArray.size(); i++) {
-                output.append(addFileArray.get(i));
-            }
-            output.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public static void addToIndex(JFrame jframe, File file){
-        //When file is added to index
-        HashMap<String, String> hashMap = new HashMap<String, String>();
-        //grab current index file
-
-        int indexFileID=0;
+    public static void addToJsonFile(JFrame jframe, File file) throws IOException {
+        //initialize variables
+        String versionVar;
+        String indexFileID="";
         String indexFileLoc="";
         String indexFileMD="";
-        try {
-            Scanner scan = new Scanner(new File(getIndexFilePath()), "UTF8");
-            String versionVar= scan.nextLine();
-            nextAvailID = scan.nextLine();
-            //scan.nextLine();
-            JsonFactory factory = new JsonFactory();
+        int count=0;
+        //instantiate json factory + generator
+        JsonFactory factory = new JsonFactory();
+        //pass Json File path
+        JsonGenerator generator = factory.createGenerator(new File(getJsonFilePath()), JsonEncoding.UTF8);
+        generator.useDefaultPrettyPrinter();
+        //pass index file (BEAMsearch.txt)
+        Scanner scan = new Scanner(new File(getIndexFilePath()), "UTF8");
+        //reads the first line (version+#)
+        versionVar= scan.nextLine();
+        //reads the second line, the next avail id
+        nextAvailID = scan.nextLine();
+        while(scan.hasNext()) {
+            if (scan.hasNextBoolean()) {
+                break;
+            }
 
-            JsonGenerator generator = factory.createGenerator(
-                    new File(System.getProperty("user.home") + "/" + JSONFILE), JsonEncoding.UTF8);
-            generator.useDefaultPrettyPrinter();
-
-            while(scan.hasNext()){
-                if(scan.hasNextBoolean()){
-                    break;
-                }
-
-                    //JOptionPane.showMessageDialog(jframe, indexFileID + indexFileLoc + indexFileMD);
-                    scan.useDelimiter("\t");
-                    indexFileID = Integer.parseInt(scan.next());
-                    indexFileLoc = scan.next();
-                    //failing due to new line being added
-                scan.useDelimiter("\t"+"\n");
-                    indexFileMD = scan.next();
-                JOptionPane.showMessageDialog(jframe, indexFileID + indexFileLoc + indexFileMD);
-               // scan.useDelimiter(" ");
-                  //  if(scan.hasNext())scan.next();
-
-                    //for debugging only (below)
-
-                    //Scan through load file below
-                Scanner scanIndex = new Scanner(new File(indexFileLoc));
-                int count=0;
-                //"scan" through files that already exist in the index.
-                while(scanIndex.hasNext()) {
+            Scanner scanLine = new Scanner(scan.nextLine());
+            scanLine.useDelimiter("\t");
+            while(scanLine.hasNextLine()) {
+                indexFileID = scanLine.next();
+                indexFileLoc = scanLine.next();
+                indexFileMD = scanLine.next();
+                count=0;
 
 
+                Scanner scanFile = new Scanner(new File(indexFileLoc));
+                while(scanFile.hasNext()){
                     generator.writeStartObject();
-                    String jsonText;
-                    generator.writeStringField("word",scanIndex.next());
+                    generator.writeStringField("word", scanFile.next());
                     generator.writeStringField("wordLocation", String.valueOf(count));
-                    generator.writeStringField( "fileID", String.valueOf(indexFileID));
+                    generator.writeStringField("fileID", indexFileID);
                     generator.writeEndObject();
                     count++;
                 }
             }
-            generator.close();
 
-
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
-        //add new file
-        try {
-            Scanner scanNewFile = new Scanner(file, "UTF8");
-            int count=0;
-            JsonFactory factory = new JsonFactory();
-            OutputStream fos = new FileOutputStream(new File(System.getProperty("user.home") + "/" + JSONFILE), true);
-            JsonGenerator generator = factory.createGenerator(fos, JsonEncoding.UTF8);
-            generator.useDefaultPrettyPrinter();
-
-            while(scanNewFile.hasNext()) {
-
-
-                generator.writeStartObject();
-                generator.writeStringField("word",scanNewFile.next());
-                generator.writeStringField("wordLocation", String.valueOf(count));
-                generator.writeStringField( "fileID", String.valueOf(nextAvailID));
-                generator.writeEndObject();
-                count++;
-
-
-            }
-            generator.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        generator.close();
 
 
     }
+    //Working properly.
+    public static void addFileNameToIndexFile(String indexFileLoc, Long indexFileMD,JFrame jframe) throws IOException {
+        //read contents of current file
+        ArrayList<String> list = new ArrayList<String>();
+        Scanner scanner = new Scanner(new File(getIndexFilePath()), "UTF8");
+        //reads version number below
+        list.add(scanner.nextLine());
+        //reads next available id
+        // example currentAvailable= 0, nextAvailableID = 1
+        int currentAvailableID = Integer.parseInt(scanner.nextLine());
+        int nextAvailableID= currentAvailableID+1;
+        list.add(String.valueOf(nextAvailableID));
+        //loops through existing files in index file.
+        while(scanner.hasNext()) {
+            //breaks loop if it sees true/false
+            if(scanner.hasNextBoolean()){
+                break;
+            }
+            list.add(scanner.nextLine());
+        }
+        //add new file to the list array
+        list.add(currentAvailableID + "\t" + indexFileLoc+"\t"+indexFileMD);
+        //adding boolean/break value
+        list.add("TRUE");
+        ////////////////////////////////////////////////////////////////////
+        //              Read from ArrayList, and write to file           //
+        //////////////////////////////////////////////////////////////////
+        Writer output;
+        output = new BufferedWriter(new FileWriter(getIndexFilePath()));
+        for (int i = 0; i < list.size(); i++) {
+            output.append(list.get(i));
+            output.append("\n");
+        }
+        output.close();
+    }
+
     public static void removeFromIndex(){
          //When file is removed from index
     }
