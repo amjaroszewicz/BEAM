@@ -98,9 +98,6 @@ public class MaintUtils {
          // Increment next available ID. To be used after a file is added.
     }
     public static void addToJsonFile(JFrame jframe, File file) throws IOException {
-        //JsonFactory factory = new JsonFactory();
-        //JsonGenerator generator =
-                //factory.createGenerator(new File(getJsonFilePath()),JsonEncoding.UTF8).useDefaultPrettyPrinter();
         int count=0;
         String indexFileID="";
         String indexFileLoc="";
@@ -109,9 +106,7 @@ public class MaintUtils {
         Scanner scan = new Scanner(new File(getIndexFilePath()), "UTF8");
         String versionVar= scan.nextLine();
         nextAvailID = scan.nextLine();
-
         HashMap<String, HashSet> hashMap = new HashMap<>();
-
         while(scan.hasNext()) {
             if (scan.hasNextBoolean()) {
                 break;
@@ -123,7 +118,6 @@ public class MaintUtils {
                 indexFileLoc = scanLine.next();
                 indexFileMD = scanLine.next();
                 count=0;
-
                 Scanner scanFile = new Scanner(new File(indexFileLoc));
                 while(scanFile.hasNext()){
                     String stringHash = scanFile.next();
@@ -134,32 +128,14 @@ public class MaintUtils {
                         hashMap.put(stringHash.toString(),hashSet);
                     }
                     else {
-
                         hashMap.get(stringHash).add(String.valueOf(count)+","+indexFileID);
-
                     }
-
-                    //HashSet<String> hashSet = new HashSet<>();
-                    //generator.writeStringField("word", scanFile.next());
-                    //hashSet.add(String.valueOf(count)+","+indexFileID);
-                    //hashMap.put(scanFile.next(),hashSet);
-
-
-
-
-
-
-                    //generator.writeStringField("wordLocation", String.valueOf(count));
-                    //generator.writeStringField("fileID", indexFileID);
-
                     count++;
                 }
             }
 
         }
-        //generator.close();
         ObjectMapper objectMapper  = new ObjectMapper();
-        //objectMapper.writeValueAsString(hashSet);
 
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(getJsonFilePath()),hashMap);
 
