@@ -1,5 +1,6 @@
 package com.beam;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -10,9 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class MaintUtils {
     public static boolean exists;
@@ -99,6 +98,76 @@ public class MaintUtils {
          // Increment next available ID. To be used after a file is added.
     }
     public static void addToJsonFile(JFrame jframe, File file) throws IOException {
+        //JsonFactory factory = new JsonFactory();
+        //JsonGenerator generator =
+                //factory.createGenerator(new File(getJsonFilePath()),JsonEncoding.UTF8).useDefaultPrettyPrinter();
+        int count=0;
+        String indexFileID="";
+        String indexFileLoc="";
+        String indexFileMD="";
+        HashSet<String> hashSet = null;
+        Scanner scan = new Scanner(new File(getIndexFilePath()), "UTF8");
+        String versionVar= scan.nextLine();
+        nextAvailID = scan.nextLine();
+
+        HashMap<String, HashSet> hashMap = new HashMap<>();
+
+        while(scan.hasNext()) {
+            if (scan.hasNextBoolean()) {
+                break;
+            }
+            Scanner scanLine = new Scanner(scan.nextLine());
+            scanLine.useDelimiter("\t");
+            while(scanLine.hasNextLine()) {
+                indexFileID = scanLine.next();
+                indexFileLoc = scanLine.next();
+                indexFileMD = scanLine.next();
+                count=0;
+
+                Scanner scanFile = new Scanner(new File(indexFileLoc));
+                while(scanFile.hasNext()){
+                    String stringHash = scanFile.next();
+                    if(!hashMap.containsKey(stringHash)){
+
+                        hashSet = new HashSet<>();
+                        hashSet.add(String.valueOf(count)+","+indexFileID);
+                        hashMap.put(stringHash.toString(),hashSet);
+                    }
+                    else {
+
+                        hashMap.get(stringHash).add(String.valueOf(count)+","+indexFileID);
+
+                    }
+
+                    //HashSet<String> hashSet = new HashSet<>();
+                    //generator.writeStringField("word", scanFile.next());
+                    //hashSet.add(String.valueOf(count)+","+indexFileID);
+                    //hashMap.put(scanFile.next(),hashSet);
+
+
+
+
+
+
+                    //generator.writeStringField("wordLocation", String.valueOf(count));
+                    //generator.writeStringField("fileID", indexFileID);
+
+                    count++;
+                }
+            }
+
+        }
+        //generator.close();
+        ObjectMapper objectMapper  = new ObjectMapper();
+        //objectMapper.writeValueAsString(hashSet);
+
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(getJsonFilePath()),hashMap);
+
+        }
+
+    //addToJsonFile2 method has been replaced by addToJsonFile method.
+    @Deprecated
+    private static void addToJsonFile2(JFrame jframe, File file) throws IOException {
         //initialize variables
         String versionVar;
         String indexFileID="";
