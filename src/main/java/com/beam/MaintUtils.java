@@ -9,8 +9,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
 public class MaintUtils {
@@ -22,11 +26,22 @@ public class MaintUtils {
     private static final String JSONFILE = "BEAMjson.txt";
     private static String nextAvailID;
     private static int currentAvailableID;
+    private static int nextAvailableID;
+
+    private static int getCurrentAvailableID(){
+        return currentAvailableID;
+    }
+    private static void setCurrentAvailableID(int id){
+        currentAvailableID=id;
+    }
+    public static int getNextAvailableID(){
+        return nextAvailableID;
+    }
+    private static void setNextAvailableID(int id){
+        nextAvailableID=id;
+    }
 
 
-
-    //Method checks if an index file exist in the user home directory
-    //Returns true/false
     public static void deleteIndexFile(){
 
         File indexFile = new File(System.getProperty("user.home") + "/" + FILE_NAME);
@@ -37,7 +52,9 @@ public class MaintUtils {
         File indexFile = new File(System.getProperty("user.home") + "/" + JSONFILE);
         indexFile.delete();
     }
-     public static boolean checkIndexFile(){
+    //Method checks if an index file exist in the user home directory
+    //Returns true/false
+    public static boolean checkIndexFile(){
          //example location c:\Users\jaitken\BEAMsearch.txt
          File indexFile = new File(getIndexFilePath());
          exists = indexFile.exists();
@@ -90,14 +107,7 @@ public class MaintUtils {
              e.printStackTrace();
          }
     }
-    public static int nextAvailableID(){
-         //read from index file and get next available id.
-        int id;
-         return id=0;
-    }
-    public static void incrementNextAvailID(){
-         // Increment next available ID. To be used after a file is added.
-    }
+
     public static void addToJsonFile(JFrame jframe, File file) throws IOException {
         int count=0;
         String indexFileID="";
@@ -192,13 +202,14 @@ public class MaintUtils {
 
     }
 
+
     public static ArrayList getIndexFileList() throws FileNotFoundException {
         ArrayList<String> list = new ArrayList<String>();
         Scanner scanner = new Scanner(new File(getIndexFilePath()), "UTF8");
         list.add(scanner.nextLine());//reads version
-        currentAvailableID = Integer.parseInt(scanner.nextLine());
-        int nextAvailableID= currentAvailableID+1;
-        list.add(String.valueOf(nextAvailableID));
+        setCurrentAvailableID(Integer.parseInt(scanner.nextLine()));
+        setNextAvailableID(currentAvailableID+1);
+        list.add(String.valueOf(getNextAvailableID()));
         //loops through existing files in index file.
         while(scanner.hasNext()) {
             //breaks loop if it sees true/false
@@ -222,8 +233,33 @@ public class MaintUtils {
         output.close();
     }
 
-    public static void removeFromIndex(int id){
+    public static ArrayList<String> removeFromIndex(ArrayList<String> list,int id){
          //When file is removed from index
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
+        }
+        return list;
+    }
+    public static void populateJtable(DefaultTableModel dtm, ArrayList<String> list) throws IOException {
+        //dtm.addRow(new Object[] {file.getName(),attr.lastModifiedTime(), attr.size() + " bytes",file.getAbsolutePath()});
+        list.remove(0); //remove version
+        list.remove(0); //remove next available id
+        for (int i = 0; i < list.size(); i++) {
+            Scanner scanner = new Scanner(list.get(i));
+            scanner.useDelimiter("\t");
+            int fileID = Integer.parseInt(scanner.next());
+            File file = new File(scanner.next());
+            try {
+                Path file2 = Paths.get(file.getAbsolutePath());
+                BasicFileAttributes attr =
+                        Files.readAttributes(file2, BasicFileAttributes.class);
+                dtm.addRow(new Object[] {file.getName(),attr.lastModifiedTime(), attr.size() + " bytes",file.getAbsolutePath()});
+                //System.out.println(list.get(i));
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        }
+
 
     }
     public static void checkFiles(){
