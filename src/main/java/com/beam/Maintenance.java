@@ -187,6 +187,8 @@ public class Maintenance extends JFrame {
                             MaintUtils.removeFromIndex(getIndexFileList(),rowSelection);
                         } catch (FileNotFoundException fileNotFoundException) {
                             fileNotFoundException.printStackTrace();
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
                         }
                         JOptionPane.showMessageDialog(null, "Removed row " + rowSelection);
                     }

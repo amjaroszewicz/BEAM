@@ -233,15 +233,19 @@ public class MaintUtils {
         output.close();
     }
 
-    public static ArrayList<String> removeFromIndex(ArrayList<String> list,int id){
-         //When file is removed from index
+    public static void removeFromIndex(ArrayList<String> list,int id) throws IOException {
+        list.remove(id+2);
+        list.add("TRUE");//adding boolean/break value
+
+        Writer output = new BufferedWriter(new FileWriter(getIndexFilePath()));
         for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
+            output.append(list.get(i));
+            output.append("\n");
         }
-        return list;
+        output.close();
+
     }
     public static void populateJtable(DefaultTableModel dtm, ArrayList<String> list) throws IOException {
-        //dtm.addRow(new Object[] {file.getName(),attr.lastModifiedTime(), attr.size() + " bytes",file.getAbsolutePath()});
         list.remove(0); //remove version
         list.remove(0); //remove next available id
         for (int i = 0; i < list.size(); i++) {
