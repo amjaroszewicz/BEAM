@@ -131,7 +131,7 @@ public class Maintenance extends JFrame {
                             //adds row to jtable
                             dtm.addRow(new Object[] {file.getName(),attr.lastModifiedTime(), attr.size() + " bytes",file.getAbsolutePath()});
 
-                                MaintUtils.addFileNameToIndexFile(file.getAbsolutePath(),file.lastModified(), Maintenance.this);
+                                MaintUtils.addFileNameToIndexFile(MaintUtils.getIndexFileList(),file.getAbsolutePath(),file.lastModified(), Maintenance.this);
                                 MaintUtils.addToJsonFile(Maintenance.this, file);
                             } catch (IOException error) {
                                 error.printStackTrace();

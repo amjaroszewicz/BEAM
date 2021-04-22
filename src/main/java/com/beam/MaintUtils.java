@@ -21,6 +21,7 @@ public class MaintUtils {
     private static final String CONFIG = "CONFIG";
     private static final String JSONFILE = "BEAMjson.txt";
     private static String nextAvailID;
+    private static int currentAvailableID;
 
 
 
@@ -136,7 +137,6 @@ public class MaintUtils {
 
         }
         ObjectMapper objectMapper  = new ObjectMapper();
-
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(getJsonFilePath()),hashMap);
 
         }
@@ -191,16 +191,12 @@ public class MaintUtils {
 
 
     }
-    //Working properly.
-    public static void addFileNameToIndexFile(String indexFileLoc, Long indexFileMD,JFrame jframe) throws IOException {
-        //read contents of current file
+
+    public static ArrayList getIndexFileList() throws FileNotFoundException {
         ArrayList<String> list = new ArrayList<String>();
         Scanner scanner = new Scanner(new File(getIndexFilePath()), "UTF8");
-        //reads version number below
-        list.add(scanner.nextLine());
-        //reads next available id
-        // example currentAvailable= 0, nextAvailableID = 1
-        int currentAvailableID = Integer.parseInt(scanner.nextLine());
+        list.add(scanner.nextLine());//reads version
+        currentAvailableID = Integer.parseInt(scanner.nextLine());
         int nextAvailableID= currentAvailableID+1;
         list.add(String.valueOf(nextAvailableID));
         //loops through existing files in index file.
@@ -211,15 +207,14 @@ public class MaintUtils {
             }
             list.add(scanner.nextLine());
         }
-        //add new file to the list array
-        list.add(currentAvailableID + "\t" + indexFileLoc+"\t"+indexFileMD);
-        //adding boolean/break value
-        list.add("TRUE");
-        ////////////////////////////////////////////////////////////////////
-        //              Read from ArrayList, and write to file           //
-        //////////////////////////////////////////////////////////////////
-        Writer output;
-        output = new BufferedWriter(new FileWriter(getIndexFilePath()));
+        return list;
+    }
+    //Working properly.
+    public static void addFileNameToIndexFile(ArrayList<String> list, String indexFileLoc, Long indexFileMD,JFrame jframe) throws IOException {
+        list.add(currentAvailableID + "\t" + indexFileLoc+"\t"+indexFileMD);//add new file to the list array
+        list.add("TRUE");//adding boolean/break value
+        //Read from ArrayList, and write to file
+        Writer output = new BufferedWriter(new FileWriter(getIndexFilePath()));
         for (int i = 0; i < list.size(); i++) {
             output.append(list.get(i));
             output.append("\n");
@@ -227,8 +222,9 @@ public class MaintUtils {
         output.close();
     }
 
-    public static void removeFromIndex(){
+    public static void removeFromIndex(int id){
          //When file is removed from index
+
     }
     public static void checkFiles(){
          //When refresh button is used, check if files exist and if date modified has changed.
