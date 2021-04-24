@@ -1,7 +1,6 @@
 package com.beam;
 
 
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import static com.beam.MaintUtils.getIndexFileList;
 
 
 public class Maintenance extends JFrame {
@@ -28,6 +28,13 @@ public class Maintenance extends JFrame {
     public JButton refreshFilesButton;
     public JButton mainMenuButton;
     private JLabel NIlabel;
+    final DefaultTableModel dtm=new DefaultTableModel() {
+        //make all cells uneditable
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
 
 
     public static void main(String[] args) {
@@ -73,15 +80,7 @@ public class Maintenance extends JFrame {
                 table1.setVisible(true);
                 table1.setFillsViewportHeight(true);
                 table1.setAutoCreateRowSorter(true);
-            }
-        });
-                final DefaultTableModel dtm=new DefaultTableModel() {
-                    //make all cells uneditable
-                    @Override
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    }
-                };
+                try {
                 //Maintenance->JTable columns
                 dtm.addColumn("File Name");
                 dtm.addColumn("Date Modified");
@@ -89,6 +88,20 @@ public class Maintenance extends JFrame {
                 dtm.addColumn("File Path");
                 //set Default Table Model
                 table1.setModel(dtm);
+                //do some kind of check if version + file isnt blank
+                    MaintUtils.populateJtable(dtm,getIndexFileList());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+
+
+
+            }
+        });
+
 
 
 
@@ -131,7 +144,7 @@ public class Maintenance extends JFrame {
                             //adds row to jtable
                             dtm.addRow(new Object[] {file.getName(),attr.lastModifiedTime(), attr.size() + " bytes",file.getAbsolutePath()});
 
-                                MaintUtils.addFileNameToIndexFile(file.getAbsolutePath(),file.lastModified(), Maintenance.this);
+                                MaintUtils.addFileNameToIndexFile(getIndexFileList(),file.getAbsolutePath(),file.lastModified(), Maintenance.this);
                                 MaintUtils.addToJsonFile(Maintenance.this, file);
                             } catch (IOException error) {
                                 error.printStackTrace();
@@ -162,7 +175,7 @@ public class Maintenance extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Remove File Functionality
-
+                //dtm.removeRow(new Object[] {file.getName(),attr.lastModifiedTime(), attr.size() + " bytes",file.getAbsolutePath()});
 
                 //Below for debugging only
                 SwingUtilities.invokeLater(new Runnable() {
@@ -170,6 +183,13 @@ public class Maintenance extends JFrame {
                         int rowSelection;
                         rowSelection = table1.getSelectedRow();
                         dtm.removeRow(rowSelection);
+                        try {
+                            MaintUtils.removeFromIndex(getIndexFileList(),rowSelection);
+                        } catch (FileNotFoundException fileNotFoundException) {
+                            fileNotFoundException.printStackTrace();
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
                         JOptionPane.showMessageDialog(null, "Removed row " + rowSelection);
                     }
                 });

@@ -1,5 +1,6 @@
 package com.beam;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -8,11 +9,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.*;
 
 public class MaintUtils {
     public static boolean exists;
@@ -22,11 +25,23 @@ public class MaintUtils {
     private static final String CONFIG = "CONFIG";
     private static final String JSONFILE = "BEAMjson.txt";
     private static String nextAvailID;
+    private static int currentAvailableID;
+    private static int nextAvailableID;
+
+    private static int getCurrentAvailableID(){
+        return currentAvailableID;
+    }
+    private static void setCurrentAvailableID(int id){
+        currentAvailableID=id;
+    }
+    public static int getNextAvailableID(){
+        return nextAvailableID;
+    }
+    private static void setNextAvailableID(int id){
+        nextAvailableID=id;
+    }
 
 
-
-    //Method checks if an index file exist in the user home directory
-    //Returns true/false
     public static void deleteIndexFile(){
 
         File indexFile = new File(System.getProperty("user.home") + "/" + FILE_NAME);
@@ -37,7 +52,9 @@ public class MaintUtils {
         File indexFile = new File(System.getProperty("user.home") + "/" + JSONFILE);
         indexFile.delete();
     }
-     public static boolean checkIndexFile(){
+    //Method checks if an index file exist in the user home directory
+    //Returns true/false
+    public static boolean checkIndexFile(){
          //example location c:\Users\jaitken\BEAMsearch.txt
          File indexFile = new File(getIndexFilePath());
          exists = indexFile.exists();
@@ -90,15 +107,53 @@ public class MaintUtils {
              e.printStackTrace();
          }
     }
-    public static int nextAvailableID(){
-         //read from index file and get next available id.
-        int id;
-         return id=0;
-    }
-    public static void incrementNextAvailID(){
-         // Increment next available ID. To be used after a file is added.
-    }
+
     public static void addToJsonFile(JFrame jframe, File file) throws IOException {
+        int count=0;
+        String indexFileID="";
+        String indexFileLoc="";
+        String indexFileMD="";
+        HashSet<String> hashSet = null;
+        Scanner scan = new Scanner(new File(getIndexFilePath()), "UTF8");
+        String versionVar= scan.nextLine();
+        nextAvailID = scan.nextLine();
+        HashMap<String, HashSet> hashMap = new HashMap<>();
+        while(scan.hasNext()) {
+            if (scan.hasNextBoolean()) {
+                break;
+            }
+            Scanner scanLine = new Scanner(scan.nextLine());
+            scanLine.useDelimiter("\t");
+            while(scanLine.hasNextLine()) {
+                indexFileID = scanLine.next();
+                indexFileLoc = scanLine.next();
+                indexFileMD = scanLine.next();
+                count=0;
+                Scanner scanFile = new Scanner(new File(indexFileLoc));
+                while(scanFile.hasNext()){
+                    String stringHash = scanFile.next();
+                    if(!hashMap.containsKey(stringHash)){
+
+                        hashSet = new HashSet<>();
+                        hashSet.add(String.valueOf(count)+","+indexFileID);
+                        hashMap.put(stringHash.toString(),hashSet);
+                    }
+                    else {
+                        hashMap.get(stringHash).add(String.valueOf(count)+","+indexFileID);
+                    }
+                    count++;
+                }
+            }
+
+        }
+        ObjectMapper objectMapper  = new ObjectMapper();
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(getJsonFilePath()),hashMap);
+
+        }
+
+    //addToJsonFile2 method has been replaced by addToJsonFile method.
+    @Deprecated
+    private static void addToJsonFile2(JFrame jframe, File file) throws IOException {
         //initialize variables
         String versionVar;
         String indexFileID="";
@@ -146,18 +201,15 @@ public class MaintUtils {
 
 
     }
-    //Working properly.
-    public static void addFileNameToIndexFile(String indexFileLoc, Long indexFileMD,JFrame jframe) throws IOException {
-        //read contents of current file
+
+
+    public static ArrayList getIndexFileList() throws FileNotFoundException {
         ArrayList<String> list = new ArrayList<String>();
         Scanner scanner = new Scanner(new File(getIndexFilePath()), "UTF8");
-        //reads version number below
-        list.add(scanner.nextLine());
-        //reads next available id
-        // example currentAvailable= 0, nextAvailableID = 1
-        int currentAvailableID = Integer.parseInt(scanner.nextLine());
-        int nextAvailableID= currentAvailableID+1;
-        list.add(String.valueOf(nextAvailableID));
+        list.add(scanner.nextLine());//reads version
+        setCurrentAvailableID(Integer.parseInt(scanner.nextLine()));
+        setNextAvailableID(currentAvailableID+1);
+        list.add(String.valueOf(getNextAvailableID()));
         //loops through existing files in index file.
         while(scanner.hasNext()) {
             //breaks loop if it sees true/false
@@ -166,15 +218,14 @@ public class MaintUtils {
             }
             list.add(scanner.nextLine());
         }
-        //add new file to the list array
-        list.add(currentAvailableID + "\t" + indexFileLoc+"\t"+indexFileMD);
-        //adding boolean/break value
-        list.add("TRUE");
-        ////////////////////////////////////////////////////////////////////
-        //              Read from ArrayList, and write to file           //
-        //////////////////////////////////////////////////////////////////
-        Writer output;
-        output = new BufferedWriter(new FileWriter(getIndexFilePath()));
+        return list;
+    }
+    //Working properly.
+    public static void addFileNameToIndexFile(ArrayList<String> list, String indexFileLoc, Long indexFileMD,JFrame jframe) throws IOException {
+        list.add(currentAvailableID + "\t" + indexFileLoc+"\t"+indexFileMD);//add new file to the list array
+        list.add("TRUE");//adding boolean/break value
+        //Read from ArrayList, and write to file
+        Writer output = new BufferedWriter(new FileWriter(getIndexFilePath()));
         for (int i = 0; i < list.size(); i++) {
             output.append(list.get(i));
             output.append("\n");
@@ -182,8 +233,38 @@ public class MaintUtils {
         output.close();
     }
 
-    public static void removeFromIndex(){
-         //When file is removed from index
+    public static void removeFromIndex(ArrayList<String> list,int id) throws IOException {
+        list.remove(id+2);
+        list.add("TRUE");//adding boolean/break value
+
+        Writer output = new BufferedWriter(new FileWriter(getIndexFilePath()));
+        for (int i = 0; i < list.size(); i++) {
+            output.append(list.get(i));
+            output.append("\n");
+        }
+        output.close();
+
+    }
+    public static void populateJtable(DefaultTableModel dtm, ArrayList<String> list) throws IOException {
+        list.remove(0); //remove version
+        list.remove(0); //remove next available id
+        for (int i = 0; i < list.size(); i++) {
+            Scanner scanner = new Scanner(list.get(i));
+            scanner.useDelimiter("\t");
+            int fileID = Integer.parseInt(scanner.next());
+            File file = new File(scanner.next());
+            try {
+                Path file2 = Paths.get(file.getAbsolutePath());
+                BasicFileAttributes attr =
+                        Files.readAttributes(file2, BasicFileAttributes.class);
+                dtm.addRow(new Object[] {file.getName(),attr.lastModifiedTime(), attr.size() + " bytes",file.getAbsolutePath()});
+                //System.out.println(list.get(i));
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        }
+
+
     }
     public static void checkFiles(){
          //When refresh button is used, check if files exist and if date modified has changed.
