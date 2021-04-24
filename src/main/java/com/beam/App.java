@@ -62,6 +62,17 @@ public class App extends JFrame {
         //Set Properties for Main window
         //MaintUtils.deleteIndexFile();
         //MaintUtils.deleteJsonFile();
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         this.setTitle("Main Application");
         this.setContentPane(this.tabbedPane1);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

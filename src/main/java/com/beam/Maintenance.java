@@ -126,8 +126,6 @@ public class Maintenance extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Add File Functionality
-
-                    //Handle open button action.
                     if (e.getSource() == addFileButton) {
 
                         int returnVal = fc.showOpenDialog(Maintenance.this);
@@ -145,7 +143,7 @@ public class Maintenance extends JFrame {
                             dtm.addRow(new Object[] {file.getName(),attr.lastModifiedTime(), attr.size() + " bytes",file.getAbsolutePath()});
 
                                 MaintUtils.addFileNameToIndexFile(getIndexFileList(),file.getAbsolutePath(),file.lastModified(), Maintenance.this);
-                                MaintUtils.addToJsonFile(Maintenance.this, file);
+                                MaintUtils.recreateJsonFile(Maintenance.this);
                             } catch (IOException error) {
                                 error.printStackTrace();
                             }
@@ -185,6 +183,7 @@ public class Maintenance extends JFrame {
                         dtm.removeRow(rowSelection);
                         try {
                             MaintUtils.removeFromIndex(getIndexFileList(),rowSelection);
+                            MaintUtils.recreateJsonFile(Maintenance.this);
                         } catch (FileNotFoundException fileNotFoundException) {
                             fileNotFoundException.printStackTrace();
                         } catch (IOException ioException) {

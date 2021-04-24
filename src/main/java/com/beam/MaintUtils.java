@@ -108,7 +108,7 @@ public class MaintUtils {
          }
     }
 
-    public static void addToJsonFile(JFrame jframe, File file) throws IOException {
+    public static void recreateJsonFile(JFrame jframe) throws IOException {
         int count=0;
         String indexFileID="";
         String indexFileLoc="";
@@ -221,7 +221,8 @@ public class MaintUtils {
         return list;
     }
     //Working properly.
-    public static void addFileNameToIndexFile(ArrayList<String> list, String indexFileLoc, Long indexFileMD,JFrame jframe) throws IOException {
+    public static void addFileNameToIndexFile(ArrayList<String> list, String indexFileLoc,
+                                              Long indexFileMD,JFrame jframe) throws IOException {
         list.add(currentAvailableID + "\t" + indexFileLoc+"\t"+indexFileMD);//add new file to the list array
         list.add("TRUE");//adding boolean/break value
         //Read from ArrayList, and write to file
