@@ -1,13 +1,5 @@
 package com.beam;
 
-/**
- * Maintenance Class
- *
- * This class is used to handle the Maintenance window and all relevant methods.
- * @author Jesse Aitken, Michael Hauser, Mile Limehouse, Ashwin Srivastava. Alexander Crawford.
- *
- */
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +11,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import static com.beam.MaintUtils.getIndexFileList;
+
+/**
+ * Maintenance Class
+ *
+ * This class is used to handle the Maintenance window and all relevant methods.
+ * @author Jesse Aitken, Michael Hauser, Mile Limehouse, Ashwin Srivastava. Alexander Crawford.
+ *
+ */
 
 public class Maintenance extends JFrame implements Runnable{
     public JTable table1;
@@ -41,7 +41,7 @@ public class Maintenance extends JFrame implements Runnable{
         run();
     }
     /**
-     * Run method contains all code need to run the Maintenance window.
+     * Run method contains all code needed to run the Maintenance window.
      */
     public void run(){
 
