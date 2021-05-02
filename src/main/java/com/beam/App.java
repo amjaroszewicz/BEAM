@@ -1,5 +1,9 @@
 package com.beam;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * App Class
  *
@@ -7,12 +11,8 @@ package com.beam;
  * @author Jesse Aitken, Michael Hauser, Mile Limehouse, Ashwin Srivastava. Alexander Crawford.
  *
  */
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-
-public class App extends JFrame {
+public class App extends JFrame implements Runnable{
     private JTabbedPane tabbedPane1;
     private JTextField textField1;
     private JButton searchButton;
@@ -39,27 +39,19 @@ public class App extends JFrame {
     private JPanel mainPanel;
     public static JFrame maint=null;
 
-
-
-
-
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                App mainApp = new App();
-                maint = new Maintenance();
-            }
-        });
-
-
-
-
+        App mainApp = new App();
     }
     //constructor
     public App(){
-        //Set Properties for Main window
+        run();
+        maint = new Maintenance();
+    }
+    public void run(){
+        //Method calls below are for testing.
         //MaintUtils.deleteIndexFile();
         //MaintUtils.deleteJsonFile();
+        //Set Properties for Main window
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (IllegalAccessException e) {
@@ -84,12 +76,7 @@ public class App extends JFrame {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        System.exit(0);
-                    }
-                });
-
+                System.exit(0);
             }
         });
         //Set action for maintenanceButton
@@ -97,50 +84,30 @@ public class App extends JFrame {
         maintenanceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        maint.setVisible(true);
-                    }
-                });
-
+                maint.setVisible(true);
             }
         });
         //Set action for "Search" button
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Add functionality to search button
-                //Alerts user if they click search with blank text field
-
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        if(inputTextbox.getText().isEmpty()){
-                            JOptionPane.showMessageDialog(tabbedPane1,
-                                    "You must enter something to search for.",
-                                    "Warning",
-                                    JOptionPane.WARNING_MESSAGE);
-                        } else {
-                            // Add functionality if search result is not blank
-
-                        }
+            //Add functionality to search button
+            //Alerts user if they click search with blank text field
+                    if(inputTextbox.getText().isEmpty()){
+                        JOptionPane.showMessageDialog(tabbedPane1,
+                                "You must enter something to search for.",
+                                "Warning",
+                                JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        // Add functionality if search result is not blank
                     }
-                });
-
-                ///
+            ///
             }
         });
-
     }
-
-
-
-
-
-
     private void createUIComponents() {
         // TODO: place custom component creation code here
     }
-
 }
 
 
