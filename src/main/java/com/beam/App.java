@@ -1,18 +1,16 @@
 package com.beam;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-
-
+/**
+ * App Class
+ *
+ * This class is used to handle the Main Application window and all relevant methods.
+ * @author Jesse Aitken, Michael Hauser, Mile Limehouse, Ashwin Srivastava. Alexander Crawford.
+ *
+ */
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.util.Locale;
+
 
 public class App extends JFrame {
     private JTabbedPane tabbedPane1;
