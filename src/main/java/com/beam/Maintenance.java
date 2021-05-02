@@ -1,26 +1,26 @@
 package com.beam;
 
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.filechooser.*;
 import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
-
 import static com.beam.MaintUtils.getIndexFileList;
 
+/**
+ * Maintenance Class
+ *
+ * This class is used to handle the Maintenance window and all relevant methods.
+ * @author Jesse Aitken, Michael Hauser, Mile Limehouse, Ashwin Srivastava. Alexander Crawford.
+ *
+ */
 
-public class Maintenance extends JFrame {
+public class Maintenance extends JFrame implements Runnable{
     public JTable table1;
     public JPanel panel1;
     public JButton addFileButton;
@@ -36,12 +36,16 @@ public class Maintenance extends JFrame {
         }
     };
 
-
-    public static void main(String[] args) {
-    }
-
     //constructor
     public Maintenance(){
+        run();
+    }
+    /**
+     * Run method contains all code needed to run the Maintenance window.
+     */
+    public void run(){
+
+
         //Check if index file exist, if not , create it and display message
         //NIlabel = New Index label (Display "New Index was created")
 
@@ -142,7 +146,7 @@ public class Maintenance extends JFrame {
                             //adds row to jtable
                             dtm.addRow(new Object[] {file.getName(),attr.lastModifiedTime(), attr.size() + " bytes",file.getAbsolutePath()});
 
-                                MaintUtils.addFileNameToIndexFile(getIndexFileList(),file.getAbsolutePath(),file.lastModified(), Maintenance.this);
+                                MaintUtils.addFileNameToIndexFile(getIndexFileList(),file.getAbsolutePath(),file.lastModified());
                                 MaintUtils.recreateJsonFile(Maintenance.this);
                             } catch (IOException error) {
                                 error.printStackTrace();
