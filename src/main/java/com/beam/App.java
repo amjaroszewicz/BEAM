@@ -1,8 +1,18 @@
 package com.beam;
 
+
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * App Class
@@ -39,13 +49,22 @@ public class App extends JFrame implements Runnable{
     private JPanel mainPanel;
     public static JFrame maint=null;
 
+    private static final String INDEX_FILE_PATH ="index.json";
+
+//    private static final StartUpService startupService = new StartUpServiceImpl();
+
     public static void main(String[] args) {
         App mainApp = new App();
     }
+
+
     //constructor
     public App(){
         run();
         maint = new Maintenance();
+        String indexPath = System.getProperty("user.home") + "/" + INDEX_FILE_PATH;
+//        startupService.loadIndex(indexPath);
+
     }
     public void run(){
         //Method calls below are for testing.
@@ -91,20 +110,68 @@ public class App extends JFrame implements Runnable{
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            //Add functionality to search button
-            //Alerts user if they click search with blank text field
-                    if(inputTextbox.getText().isEmpty()){
-                        JOptionPane.showMessageDialog(tabbedPane1,
-                                "You must enter something to search for.",
-                                "Warning",
-                                JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        // Add functionality if search result is not blank
+                //Add functionality to search button
+                //Alerts user if they click search with blank text field
+                if(inputTextbox.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(tabbedPane1,
+                            "You must enter something to search for.",
+                            "Warning",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    // Add functionality if search result is not blank
+                    resultsList.setListData(new String[0]);
+                    String indexFilePath = MaintUtils.getIndexFilePath();
+                    String searchText = inputTextbox.getText();
+                    String [] terms = searchText.split(" ");
+                    List<String> stringList = readIndexFile(indexFilePath);
+                    boolean allRadioSelected = allRadio.isSelected();
+                    boolean exactRadioSelected = exactRadio.isSelected();
+                    boolean anyRadioSelected = anyRadio.isSelected();
+                    List<String> result= Collections.EMPTY_LIST;
+                    if(allRadioSelected){
+                        result = stringList.stream().filter(fileInfo -> {
+                            for (String term : terms) {
+                                if (!fileInfo.contains(term)) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        }).collect(Collectors.toList());
+
                     }
-            ///
+
+                    if(exactRadioSelected){
+                        result  = stringList.stream().filter(fileInfo ->fileInfo.contains(searchText)).collect(Collectors.toList());
+                    }
+
+                    if(anyRadioSelected){
+                        result = stringList.stream().filter(fileInfo -> {
+                            for (String term : terms) {
+                                if (fileInfo.contains(term)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }).collect(Collectors.toList());
+                    }
+                    resultsList.setListData(result.toArray(new String[0]));
+
+                }
+                ///
             }
         });
     }
+
+    private List<String> readIndexFile(String indexFilePath){
+        try {
+            return Files.readAllLines(new File(indexFilePath).toPath(), Charset.defaultCharset() );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
     }

@@ -85,11 +85,11 @@ public class MaintUtils {
      * @return True if the file exist, false otherwise.
      */
     public static boolean checkIndexFile(){
-         //example location c:\Users\jaitken\BEAMsearch.txt
-         File indexFile = new File(getIndexFilePath());
-         exists = indexFile.exists();
+        //example location c:\Users\jaitken\BEAMsearch.txt
+        File indexFile = new File(getIndexFilePath());
+        exists = indexFile.exists();
 
-         return exists;
+        return exists;
     }
     /**
      * This method checks the version from the index file.
@@ -117,8 +117,8 @@ public class MaintUtils {
      * @return Returns a string with the index file path.
      */
     public static String getIndexFilePath(){
-         String fp= System.getProperty("user.home")+"/"+FILE_NAME;
-         return fp;
+        String fp= System.getProperty("user.home")+"/"+FILE_NAME;
+        return fp;
     }
     /**
      * This method returns the JSON file path.
@@ -136,18 +136,18 @@ public class MaintUtils {
      */
     public static void createNewIndexFile() {
         //example location c:\Users\jaitken\BEAMsearch.txt
-         try {
-             File indexFile = new File(System.getProperty("user.home") + "/" + FILE_NAME);
-             indexFile.createNewFile();
-             Writer output;
-             output = new BufferedWriter(new FileWriter(getIndexFilePath()));  //clears file every time
-             output.append(VERSION+"\n");
-             output.append("0");
-             output.close();
-         }
-         catch (IOException e) {
-             e.printStackTrace();
-         }
+        try {
+            File indexFile = new File(System.getProperty("user.home") + "/" + FILE_NAME);
+            indexFile.createNewFile();
+            Writer output;
+            output = new BufferedWriter(new FileWriter(getIndexFilePath()));  //clears file every time
+            output.append(VERSION+"\n");
+            output.append("0");
+            output.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * This method updates/recreates the JSON file when files are added or removed.
@@ -194,7 +194,7 @@ public class MaintUtils {
         ObjectMapper objectMapper  = new ObjectMapper();
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(getJsonFilePath()),hashMap);
 
-        }
+    }
     /**
      * This method adds each file from the index(file) to an ArrayList and returns it.
      *
@@ -281,7 +281,7 @@ public class MaintUtils {
      * This method will be used to check if the files in the index have been modified .
      */
     public static void checkFiles(){
-         //When refresh button is used, check if files exist and if date modified has changed.
+        //When refresh button is used, check if files exist and if date modified has changed.
     }
     /**
      * This method will be used to compare the modified date of two files.
@@ -289,6 +289,6 @@ public class MaintUtils {
      */
     public static boolean compareModifiedDate(){
 
-         return false;
+        return false;
     }
 }
