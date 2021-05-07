@@ -181,11 +181,7 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <model>
-                    <item value="Item A"/>
-                    <item value="Item B"/>
-                    <item value="Item C"/>
-                  </model>
+                  <model/>
                 </properties>
               </component>
             </children>

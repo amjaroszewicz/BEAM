@@ -11,7 +11,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="BEAM" target="1.7" />
-      <module name="Beam" target="1.7" />
+      <module name="Beam" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
